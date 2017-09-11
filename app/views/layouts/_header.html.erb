@@ -13,12 +13,12 @@
 
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <% if admin_signed_in? %>
-            <p class="navbar-text">Logged in as <strong><%= current_admin.email %></strong>.</p>
-            <li><%= link_to "Logout", destroy_admin_session_path, method: :delete %></li>
+          <% if user_signed_in? %>
+            <p class="navbar-text">Logged in as <strong><%= current_user.email %></strong>.</p>
+            <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
           <% else %>
-            <li><%= link_to "Sign up", new_admin_registration_path %></li>
-            <li><%= link_to "Login", new_admin_session_path %></li>
+            <li><%= link_to "Sign up", new_user_registration_path %></li>
+            <li><%= link_to "Login", new_user_session_path %></li>
           <% end %>
         </ul>
       </div>
