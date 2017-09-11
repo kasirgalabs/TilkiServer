@@ -1,9 +1,10 @@
 class Api::V1::StudentsController < ApplicationController
+  skip_before_action :authenticate_user!
   protect_from_forgery unless: -> { request.format.json? }
-  
+
   def create
     @student = Student.new(student_params)
-    
+
     respond_to do |format|
       if @student.save
         format.json { render json: @student.to_json }
@@ -12,7 +13,7 @@ class Api::V1::StudentsController < ApplicationController
       end
     end
   end
-  
+
   private
   def student_params
     params.require(:student).permit(:name, :surname, :number)
