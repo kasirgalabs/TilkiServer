@@ -7,7 +7,7 @@ class Api::V1::StudentsController < ApplicationController
 
     respond_to do |format|
       if @student.save
-        format.json { render json: @student.to_json }
+        format.json { render json: @student}
       else
         format.json { render json: { errors: @student.errors.full_messages } }
       end

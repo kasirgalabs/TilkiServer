@@ -6,9 +6,10 @@ Rails.application.routes.draw do
     root to: 'home#index', as: :authenticated_root
   end
 
-  namespace :api do
+  namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       resources :students
+      resources :exams
     end
   end
 
