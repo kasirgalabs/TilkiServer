@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :exams
+
   root to: redirect('/users/sign_in')
 end
