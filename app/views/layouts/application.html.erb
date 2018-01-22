@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>EXam</title>
+    <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -24,9 +24,9 @@
         <li><%= link_to "Sign Out", destroy_teacher_session_path, method: :delete %></li>
       <% else %>
         <li><%= link_to "Teacher Sign Up", new_teacher_registration_path %></li>
-        <li><%= link_to "Teacher Log In", new_teacher_session_path %></li>
+        <li><%= link_to "Teacher Login", new_teacher_session_path %></li>
         <li><%= link_to "Student Sign Up", new_student_registration_path %></li>
-        <li><%= link_to "Student Log In", new_student_session_path %></li>
+        <li><%= link_to "Student Login", new_student_session_path %></li>
       <% end %>
     </ul>
   </div>
