@@ -11,7 +11,19 @@
   <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
       <div class="navbar-header">
-        <%= link_to image_tag("exam.png", alt: "logo"), '/', class: 'navbar-brand' %>
+        <% if current_student.present? %>
+          <%= link_to students_index_path do %>
+            <%= image_tag("exam.png", :alt => "logo", :class => "navbar-brand") %>
+          <% end %>
+        <% elsif current_teacher.present?%>
+          <%= link_to teachers_index_path do %>
+            <%= image_tag("exam.png", :alt => "logo", :class => "navbar-brand") %>
+          <% end %>
+        <% else %>
+          <%= link_to root_path do %>
+            <%= image_tag("exam.png", :alt => "logo", :class => "navbar-brand") %>
+          <% end %>        
+        <% end %>
       </div>
       <div id="navbar6" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">

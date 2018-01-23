@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'teachers/index'
+  get 'students/index'
+
   devise_for :students, path: 'students'
 
   devise_for :teachers, path: 'teachers'
