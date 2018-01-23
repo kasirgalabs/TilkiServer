@@ -7,38 +7,35 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-  
-  <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <%= link_to "eXam", root_path, class: "navbar-brand" %>
+
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <%= link_to image_tag("exam.png", alt: "logo"), '/', class: 'navbar-brand' %>
+      </div>
+      <div id="navbar6" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <% if current_student.present? %>
+            <li><a><%= current_student.name%> <%= current_student.surname%></a></li>
+            <li><%= link_to "Sign Out", destroy_student_session_path, method: :delete %></li>
+          <% elsif current_teacher.present?%>
+            <li><a><%= current_teacher.name%> <%= current_teacher.surname%></a></li>
+            <li><%= link_to "Sign Out", destroy_teacher_session_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to "Teacher Log In", new_teacher_session_path %></li>
+            <li><%= link_to "Student Log In", new_student_session_path %></li>
+          <% end %>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
     </div>
-    <ul class="nav navbar-nav navbar-right">
-      <% if current_student.present? %>
-        <li><a href="#"><%= current_student.name%></a></li>
-        <li><a href="#"><%= current_student.surname%></a></li>
-        <li><%= link_to "Sign Out", destroy_student_session_path, method: :delete %></li>
-      <% elsif current_teacher.present?%>
-        <li><a href="#"><%= current_teacher.name%></a></li>
-        <li><a href="#"><%= current_teacher.surname%></a></li>
-        <li><%= link_to "Sign Out", destroy_teacher_session_path, method: :delete %></li>
-      <% else %>
-        <li><%= link_to "Teacher Sign Up", new_teacher_registration_path %></li>
-        <li><%= link_to "Teacher Log In", new_teacher_session_path %></li>
-        <li><%= link_to "Student Sign Up", new_student_registration_path %></li>
-        <li><%= link_to "Student Log In", new_student_session_path %></li>
-      <% end %>
-    </ul>
-  </div>
-</nav>
-  
-  
+    <!--/.container-fluid -->
+  </nav>
 
   <body>
     <%= yield %>
   </body>
-  
+
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
-  
 </html>

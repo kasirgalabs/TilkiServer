@@ -1,1 +1,15 @@
-<h1>This is the home page</h1>
+
+<div class="background-image jumbotron" style="margin-bottom:0px;"> 
+       <div class = "container">
+          <br></br>
+          <center><h1>e-Xam a new way of online examination</h1></center>
+          <p>Please Sign up to discover more:</p>
+          <p>
+            <%= button_to 'Sign up as Student', new_student_registration_path, method: :get, class: 'btn btn-primary btn-lg' %>
+          </p>
+            <%= button_to 'Sign up as Teacher', new_teacher_registration_path, method: :get, class: 'btn btn-primary btn-lg' %>
+          </p>
+       </div>
+</div> 
+
+
