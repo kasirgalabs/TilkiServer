@@ -1,5 +1,5 @@
-class CourseController < ApplicationController
-  before_action :find_course, only: [:show, :edit, :update, :destroy]
+class CoursesController < ApplicationController
+before_action :find_course, only: [:show, :edit, :update, :destroy]
   def index
     if teacher_signed_in?
       @courses = Course.where(:teacher_id => current_teacher.id).order("created_at DESC")
@@ -15,11 +15,9 @@ class CourseController < ApplicationController
   end
   
   def create
-    name = params[:name]
-    description = params[:desc]
-    @course = Course.new(:name => name, :description => description, :teacher_id => current_teacher.id) 
+    @course = current_teacher.courses.build(course_params) 
     if @course.save
-      redirect_to course_path(@course)
+      redirect_to @course
     else
       render 'new'
     end
@@ -30,7 +28,7 @@ class CourseController < ApplicationController
   
   def update
     if @course.update(course_params)
-      redirect_to course_path(@course)
+      redirect_to @course
     else
       render 'edit'
     end
@@ -38,7 +36,7 @@ class CourseController < ApplicationController
   
   def destroy
     @course.destroy
-    redirect_to course_index_path
+    redirect_to courses_path
   end
   
   private

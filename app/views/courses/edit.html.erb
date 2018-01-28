@@ -1,0 +1,11 @@
+<h1> Edit Course </h1>
+
+<%= form_for @course do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  
+  <%= f.label :description %>
+  <%= f.text_field :description %>
+
+  <%= f.submit "Edit course", class: "btn btn-primary" %>
+<% end %>
