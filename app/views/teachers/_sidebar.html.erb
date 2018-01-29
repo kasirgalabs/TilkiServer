@@ -1,0 +1,19 @@
+
+<nav class="navbar navbar-inverse sidebar" role="navigation">
+    <div class="container-fluid">
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+			    <li><%= link_to new_course_path do %>
+                    Create Course<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span>
+                <% end %></li>
+                <li><%= link_to teachers_my_courses_path do %>
+                    My Courses<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span>
+                <% end %></li>
+                <li><%= link_to teachers_exam_dates_path do %>
+                    Upcoming Exam Dates<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-calendar"></span>
+                <% end %></li>
+			</ul>
+		</div>
+	</div>
+</nav>

@@ -1,0 +1,24 @@
+<%= stylesheet_link_tag "sidebar.css" %>
+<%= stylesheet_link_tag "card.css" %>
+
+<%= render 'sidebar' %>
+
+
+<div class="main back-im">
+   <div class="col-md-offset-3 col-md-6">
+      <% @my_courses.each do |f| %>
+      <div class="row">
+         <div class="card">
+            <h3 class="card-header"><center><%= f.name %></center></h3>
+            <div class="card-block">
+                <p class="card-text"> <b>Course Teacher: </b><%= current_teacher.name %> <%= current_teacher.surname %></p>
+                <p class="card-text"> <b>Course Description: </b><%= f.description %></p>
+                <%= button_to 'Show Course', course_path(f), method: :get, class: 'btn btn-primary' %>
+            </div>
+         </div>
+      </div>
+   </div>
+   <% end %>
+</div>
+
+
