@@ -14,7 +14,7 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
     if teacher_signed_in?
       @course = Course.new
     else
-      render 'index'
+      redirect_to teachers_my_courses_path
     end
   end
   
@@ -40,7 +40,7 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
   
   def destroy
     @course.destroy
-    redirect_to courses_path
+    redirect_to teachers_my_courses_path
   end
   
   private

@@ -5,7 +5,7 @@
     <h1><%= @course.name %></h1>
     <p><%= @course.description %></p>
     
-    <%= link_to "Back", courses_path, class: "btn btn-primary" %>
+    <%= link_to "Back", teachers_my_courses_path, class: "btn btn-primary" %>
     <%= link_to "Edit", edit_course_path(@course), class: "btn btn-primary" %>
     <%= link_to "Delete", course_path(@course), method: :delete, class: "btn btn-primary", data: {confirm: "Are you sure"} %>
     
