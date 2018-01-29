@@ -11,7 +11,11 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
   end
   
   def new
-    @course = Course.new
+    if teacher_signed_in?
+      @course = Course.new
+    else
+      render 'index'
+    end
   end
   
   def create
