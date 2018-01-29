@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get 'teachers/index'
   get 'students/index'
+  get 'teachers/my_courses'
+  get 'teachers/exam_dates'
+
   devise_for :students, path: 'students'
   devise_for :teachers, path: 'teachers'
   resources :courses

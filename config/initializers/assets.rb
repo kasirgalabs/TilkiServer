@@ -18,3 +18,5 @@ Rails.application.config.assets.precompile << Proc.new { |path|
     true
   end
 }
+
+Rails.application.config.assets.precompile += %w( sidebar.css card.css calendar.css)

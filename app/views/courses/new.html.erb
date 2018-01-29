@@ -1,7 +1,18 @@
 <% provide(:title, "Create New Course") %>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <h1> Create New Course </h1>
-  </div>
-</div
-<%= render 'form' %>
+
+<%= stylesheet_link_tag "sidebar.css" %>
+
+<%= render 'sidebar' %>
+
+
+<div class="main back-im">
+    <div class="row">
+      <h2 class="col-md-6 col-md-offset-3">Create New Course</h2>
+    </div>
+    <%= render 'form' %>    
+</div>
+
+
+
+
+
