@@ -43,6 +43,10 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
     redirect_to teachers_my_courses_path
   end
   
+  def enroll
+    
+  end
+  
   private
     def course_params
       params.require(:course).permit(:name, :description)
