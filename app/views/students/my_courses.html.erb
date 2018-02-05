@@ -14,7 +14,7 @@
          <div class="card">
             <h3 class="card-header"><center><%= f.name %></center></h3>
             <div class="card-block">
-                <p class="card-text"> <b>Course Teacher: </b><%= current_teacher.name %> <%= current_teacher.surname %></p>
+                <p class="card-text"> <b>Course Teacher: </b><%= Teacher.find(f.teacher_id).name %> <%= Teacher.find(f.teacher_id).surname %></p>
                 <p class="card-text"> <b>Course Description: </b><%= f.description %></p>
                 <%= button_to 'Show Course', course_path(f), method: :get, class: 'btn btn-primary' %>
             </div>

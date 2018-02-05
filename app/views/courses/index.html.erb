@@ -1,15 +1,27 @@
-<% provide(:title, "Courses") %>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <h1> Courses </h1>
-    <% if teacher_signed_in? %>
-    
-      <% @courses.each do |course| %>
-        <h2><%= link_to course.name, course %></h2>
-        <p><%= course.description %></p>
+<% provide(:title, "Enroll Courses") %>
+<%= stylesheet_link_tag "sidebar.css" %>
+<%= stylesheet_link_tag "card.css" %>
+
+<%= render 'students/sidebar' %>
+
+<div class="main back-im" style="font-family: Ubuntu;">
+   <div class="col-md-offset-3 col-md-6">
+      <h2 class="page-header">Enroll Courses</h2>
+      <% @courses.each do |f| %>
+      <br> </br>
+      <div class="row">
+         <div class="card">
+            <h3 class="card-header"><center><%= f.name %></center></h3>
+            <div class="card-block">
+                <p class="card-text"> <b>Course Teacher: </b><%= Teacher.find(f.teacher_id).name %> <%= Teacher.find(f.teacher_id).surname %></p>
+                <p class="card-text"> <b>Course Description: </b><%= f.description %></p>
+                <%= button_to 'Show Course', course_path(f), method: :get, class: 'btn btn-primary' %>
+                <%= button_to 'Enroll Course', course_path(f), method: :get, class: 'btn btn-primary' %>
+            </div>
+         </div>
+      </div>
       <% end %>
-      
-      <%= link_to "New Course", new_course_path, class: "btn btn-primary" %>
-    <% end %>
-  </div>
-</div
+   </div>
+</div>
+
+

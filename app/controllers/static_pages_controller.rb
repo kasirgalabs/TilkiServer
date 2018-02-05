@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
         end
         
         if student_signed_in?
-            redirect_to student_index_path
+            redirect_to students_index_path
         end
     end
 end

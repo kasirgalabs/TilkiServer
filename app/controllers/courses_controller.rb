@@ -1,50 +1,79 @@
 class CoursesController < ApplicationController
 before_action :find_course, only: [:show, :edit, :update, :destroy]
-  def index
-    if teacher_signed_in?
-      @courses = Course.where(:teacher_id => current_teacher.id).order("created_at DESC")
-    end
-  end
-  
+
   def show
-  
+    if teacher_signed_in?
+      render 'teacher_show'
+    elsif student_signed_in?
+      render 'student_show'
+    else
+      redirect_to root_path
+    end
   end
   
   def new
     if teacher_signed_in?
       @course = Course.new
+    elsif student_signed_in?
+      redirect_to students_index_path
     else
-      redirect_to teachers_my_courses_path
+      redirect_to root_path
     end
   end
   
   def create
-    @course = current_teacher.courses.build(course_params) 
-    if @course.save
-      redirect_to @course
+    if teacher_signed_in?
+      @course = current_teacher.courses.build(course_params) 
+      if @course.save
+        redirect_to @course
+      else
+        render 'new'
+      end
     else
-      render 'new'
+      redirect_to root_path
     end
   end
   
   def edit
+    if teacher_signed_in?
+      render 'edit'
+    elsif student_signed_in?
+      redirect_to students_index_path
+    else
+      redirect_to root_path
+    end
   end
   
   def update
-    if @course.update(course_params)
-      redirect_to @course
+    if teacher_signed_in?
+      if @course.update(course_params)
+        redirect_to @course
+      else
+        render 'edit'
+      end
     else
-      render 'edit'
+      redirect_to root_path
     end
   end
   
   def destroy
-    @course.destroy
-    redirect_to teachers_my_courses_path
+    if teacher_signed_in?
+      @course.destroy
+      redirect_to teachers_my_courses_path
+    else
+      redirect_to root_path
+    end
+  end
+  
+  def index
+    if student_signed_in?
+      @courses = Course.all
+    else
+      redirect_to teachers_index_path
+    end
   end
   
   def enroll
-    
   end
   
   private
