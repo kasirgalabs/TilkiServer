@@ -19,4 +19,4 @@ Rails.application.config.assets.precompile << Proc.new { |path|
   end
 }
 
-Rails.application.config.assets.precompile += %w( sidebar.css card.css calendar.css)
+Rails.application.config.assets.precompile += %w( sidebar.css card.css calendar.css sb-admin-2.css)

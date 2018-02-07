@@ -1,19 +1,105 @@
 <% provide(:title, @course.name) %>
 
 <%= stylesheet_link_tag "sidebar.css" %>
+<%= stylesheet_link_tag "sb-admin-2.css" %>
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
 
 <%= render 'teachers/sidebar' %>
 
+<div class="main back-im">
+
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    
-    
-    <h1><%= @course.name %></h1>
-    <p><%= @course.description %></p>
-    
-    <%= link_to "Back", teachers_my_courses_path, class: "btn btn-primary" %>
-    <%= link_to "Edit", edit_course_path(@course), class: "btn btn-primary" %>
-    <%= link_to "Delete", course_path(@course), method: :delete, class: "btn btn-primary", data: {confirm: "Are you sure"} %>
-    
+  <div class="col-lg-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-child fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @studentCount %></div>
+            <div><center>Students enrolled to this course</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div
+
+  <div class="col-lg-4">
+    <div class="panel panel-green">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-file fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @examCount %></div>
+            <div><center>Exams created</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-comments fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @course.name %></div>
+              <div><center><%= @course.description %></center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="mycontent-left">
+      <div class="card" style="margin-right:20px; margin-top:20px; background-color:white;">
+        <h3 class="card-header"><center>Create Exams!</center></h3>
+        <div class="card-block">
+          <p class="card-text">You can easily create exams by using the button below</p>
+          <%= button_to 'Create Exam', course_path(), method: :get, class: 'btn btn-primary'%>
+        </div>
+      </div>
+
+      <div class="card" style="margin-right:20px; margin-top:20px; background-color:white;">
+        <h3 class="card-header"><center>Edit or Delete Course</center></h3>
+        <div class="card-block">
+          <p class="card-text">You can edit this course's description or delete this course by using the buttons below</p>
+          <div class="btn-group">
+            <%= button_to 'Edit Course', edit_course_path(@course), method: :get, class: 'btn btn-primary'%>
+            <%= button_to 'Delete Course', course_path(@course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure"} %>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="mycontent-right">
+        <% if @courseStudents.nil? %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You don't have any created exams. Please create exams for activating exam results section!
+          </div>
+        <% else %>
+          <!-- Datatable will be added here -->
+        <% end %>
+    </div>
+  </div>  
+</div>
+</div>
+
+<script>
+$(document).ready( function () {
+    $('#table').DataTable();
+});  
+</script>
