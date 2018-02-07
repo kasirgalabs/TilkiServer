@@ -86,6 +86,11 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
   end
   
   def enroll
+    if student_signed_in?
+      @courseStudent = CourseStudent.create(course_id: params[:id], student_id: current_student.id)
+    else
+      redirect_to root_path
+    end
   end
   
   private
