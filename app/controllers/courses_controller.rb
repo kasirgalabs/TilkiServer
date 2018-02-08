@@ -87,11 +87,15 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
   
   def enroll
     if student_signed_in?
-      @courseStudent = CourseStudent.create(course_id: params[:id], student_id: current_student.id)
-      if @courseStudent.save
+      if CourseStudent.exists?(course_id: params[:id], student_id: current_student.id)
         redirect_to course_path
       else
-        redirect_to root_path
+        @courseStudent = CourseStudent.create(course_id: params[:id], student_id: current_student.id)
+        if @courseStudent.save
+          redirect_to course_path
+        else
+          redirect_to root_path
+        end
       end
     else
       redirect_to root_path
