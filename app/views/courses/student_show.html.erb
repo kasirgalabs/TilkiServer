@@ -87,12 +87,29 @@
   <div class="col-md-8">
     <div class="mycontent-right">
       <h2 class="page-header"><center style="margin-right:25px;">Exam Results</center></h2>      
-        <% if @examResults.nil? %>
-          <div class="alert alert-danger" style="margin-top:20px;">
-            You don't have any announced exams!s
-          </div>
+        <% if @examResults.count !=0 %>
+          <table id="example" class="display nowrap" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Exam Name</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% @examResults.each do |c| %>
+              <tr>
+                <td><%= Teacher.where(:id => @examResults.teacher_id).name %></td>
+                <td><%= Exam.where(:id => @examResults.exam_id).name %></td>
+                <td>c.totalgrade</td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
         <% else %>
-          <!-- Datatable will be added here -->
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You don't have any announced exams!
+          </div>
         <% end %>
     </div>
   </div>  

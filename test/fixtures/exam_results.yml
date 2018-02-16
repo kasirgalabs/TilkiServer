@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  exam_id: 
-  student_id: 
-  course_id: 
-  totalgrade: 
+  exam_id: 1
+  student_id: 1
+  course_id: 1
+  totalgrade: 1
 
 two:
-  exam_id: 
-  student_id: 
-  course_id: 
-  totalgrade: 
+  exam_id: 1
+  student_id: 1
+  course_id: 1
+  totalgrade: 1

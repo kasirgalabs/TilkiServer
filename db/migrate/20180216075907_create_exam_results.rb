@@ -1,10 +1,10 @@
 class CreateExamResults < ActiveRecord::Migration[5.1]
   def change
     create_table :exam_results do |t|
-      t.int :exam_id
-      t.int :student_id
-      t.int :course_id
-      t.int :totalgrade
+      t.integer :exam_id
+      t.integer :student_id
+      t.integer :course_id
+      t.integer :totalgrade
 
       t.timestamps
     end

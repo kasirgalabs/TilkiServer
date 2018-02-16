@@ -23,7 +23,7 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
       @examCount = Exam.where(:course_id => @course.id).count
       @exams = Exam.where(:course_id => @course.id)
       @examResults = ExamResult.where(:course_id => @course_id)
-      
+
       if @records.nil?
         @courseStudents = nil  
       else
