@@ -1,16 +1,109 @@
 <% provide(:title, @course.name) %>
 
 <%= stylesheet_link_tag "sidebar.css" %>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
 <%= render 'students/sidebar' %>
 
+<div class="main back-im">
+
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    
-    
-    <h1><%= @course.name %></h1>
-    <p><%= @course.description %></p>
-    
-    
+  <div class="col-lg-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-child fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @studentCount %></div>
+            <div><center>Students enrolled to this course</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div
+
+  <div class="col-lg-4">
+    <div class="panel panel-green">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-file fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @examCount %></div>
+            <div><center>Exams created</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-comments fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @course.name %></div>
+              <div><center><%= @course.description %></center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="mycontent-left">
+      <h2 class="page-header"><center>Upcoming Exams</center></h2>      
+      <table id="example" class="display nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Exam Name</th>
+                <th>Date</th>
+                <th>Attend Exam</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @exams.each do |c| %>
+            <tr>
+                <td>c.name</td>
+                <td>c.date</td>
+                <td><%= button_to 'Attend Exam', course_path(), method: :get, class: 'btn btn-primary'%></td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+    </div>
+  </div>
+  
+  <div class="col-md-8">
+    <div class="mycontent-right">
+      <h2 class="page-header"><center style="margin-right:25px;">Exam Results</center></h2>      
+        <% if @examResults.nil? %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You don't have any announced exams!s
+          </div>
+        <% else %>
+          <!-- Datatable will be added here -->
+        <% end %>
+    </div>
+  </div>  
+</div>
+</div>
+
+<script>
+$(document).ready( function() {
+  $('#example').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
