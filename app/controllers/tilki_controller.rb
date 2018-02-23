@@ -1,5 +1,8 @@
 class TilkiController < ApplicationController
   
+  protect_from_forgery
+  skip_before_action :verify_authenticity_token
+  
   def list_exams
     date = DateTime.now
     @exams = Exam.where(["finish_time > ?", date])
@@ -54,6 +57,26 @@ class TilkiController < ApplicationController
           format.json { render json: 'Instructor not found' }
         end    
     end
+  end
+  
+  
+  def upload
+      number = params[:number]
+      exam = params[:exam]
+      zipFile = params[:fileName]
+      zipname = zipFile.original_filename
+
+
+      Rails.logger.debug("My number: #{number.inspect}")
+      Rails.logger.debug("My exam: #{exam.inspect}")
+      Rails.logger.debug("zipname: #{zipname.inspect}")
+
+      uploader = AvatarUploader.new
+      uploader.store!(zipFile)
+      
+      require 'digest/md5'
+      @digest = Digest::MD5.hexdigest(zipname)
+
   end
   
 end

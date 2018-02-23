@@ -15,5 +15,6 @@ Rails.application.routes.draw do
   get 'tilki/list_exams'
   get 'tilki/check_in'
   get 'tilki/verify_key'
+  post 'tilki/upload'
   
 end
