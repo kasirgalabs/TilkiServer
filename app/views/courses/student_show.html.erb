@@ -60,7 +60,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div class="mycontent-left">
       <h2 class="page-header"><center>Upcoming Exams</center></h2>      
       <table id="example" class="display nowrap" cellspacing="0" width="100%">
@@ -74,9 +74,15 @@
         <tbody>
           <% @exams.each do |c| %>
             <tr>
-                <td>c.name</td>
-                <td>c.date</td>
-                <td><%= button_to 'Attend Exam', course_path(), method: :get, class: 'btn btn-primary'%></td>
+                <td><%= c.name %></td>
+                <td><%= c.start_time %></td>
+                <td>
+                  <% if (c.start_time - Time.now) > - 10.minutes %>
+                    <%= button_to 'Show Exam', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => true%>
+                  <% else %>
+                    <%= button_to 'Show Exam', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => false%>
+                  <% end %>
+                </td>
             </tr>
           <% end %>
         </tbody>
@@ -84,7 +90,7 @@
     </div>
   </div>
   
-  <div class="col-md-8">
+  <div class="col-md-6">
     <div class="mycontent-right">
       <h2 class="page-header"><center style="margin-right:25px;">Exam Results</center></h2>      
         <% if @examResults.count !=0 %>

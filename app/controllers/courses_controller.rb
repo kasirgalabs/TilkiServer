@@ -8,13 +8,12 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
       @studentCount = @records.count
       @examCount = Exam.where(:course_id => @course.id).count
       @exams = Exam.where(:course_id => @course.id)
-      
+
       if @records.nil?
         @courseStudents = nil  
       else
         #@courseStudents = Student.where(:id => @records.student_id).take
       end
-      Rails.logger.debug("My object: #{@courseStudents.inspect}")
       render 'teacher_show'
     elsif student_signed_in?
       @courses = Course.all

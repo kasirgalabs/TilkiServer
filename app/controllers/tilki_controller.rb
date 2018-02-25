@@ -76,7 +76,5 @@ class TilkiController < ApplicationController
       
       require 'digest/md5'
       @digest = Digest::MD5.hexdigest(zipname)
-
   end
-  
 end

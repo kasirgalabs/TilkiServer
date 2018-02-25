@@ -3,8 +3,10 @@
 <%= stylesheet_link_tag "sidebar.css" %>
 <%= stylesheet_link_tag "sb-admin-2.css" %>
 
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
 
 
 <%= render 'teachers/sidebar' %>
@@ -86,12 +88,33 @@
   </div>
   <div class="col-md-8">
     <div class="mycontent-right">
-        <% if @courseStudents.nil? %>
+        <% if @examCount < 1 %>
           <div class="alert alert-danger" style="margin-top:20px;">
             You don't have any created exams. Please create exams for activating exam results section!
           </div>
         <% else %>
-          <!-- Datatable will be added here -->
+          <table id="example" class="display nowrap" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Exam Name</th>
+                <th>Date</th>
+                <th>Show Exam</th>
+                <th>Edit Exam</th>
+                <th>Delete Exam</th>
+              </tr>
+            </thead>
+          <tbody>
+            <% @exams.each do |c| %>
+            <tr>
+              <td><%= c.name %></td>
+              <td><%= c.start_time %></td>
+              <td><%= button_to 'Show Exam', course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
+              <td><%= button_to 'Edit Exam', edit_course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
+              <td><%= button_to 'Delete Exam', course_exam_path(@course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure?"}%></td>
+            </tr>
+            <% end %>
+          </tbody>
+          </table>
         <% end %>
     </div>
   </div>  
@@ -102,4 +125,13 @@
 $(document).ready( function () {
     $('#table').DataTable();
 });  
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
 </script>
