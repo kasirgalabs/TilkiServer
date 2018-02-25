@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216075907) do
+ActiveRecord::Schema.define(version: 20180225143656) do
 
   create_table "classic_answers", force: :cascade do |t|
     t.integer "classic_id"
@@ -55,7 +55,6 @@ ActiveRecord::Schema.define(version: 20180216075907) do
 
   create_table "exams", force: :cascade do |t|
     t.integer "course_id"
-    t.boolean "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "start_time"
@@ -78,6 +77,7 @@ ActiveRecord::Schema.define(version: 20180216075907) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "surname"
+    t.integer "number"
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
   end

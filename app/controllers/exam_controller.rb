@@ -1,2 +1,0 @@
-class ExamController < ApplicationController
-end

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   get 'students/exam_dates'
   devise_for :students, path: 'students'
   devise_for :teachers, path: 'teachers'
-  resources :courses
+  resources :courses do
+    resources :exams
+  end
   post 'courses/:id/enroll', to: 'courses#enroll', as: 'enroll'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'static_pages#home'

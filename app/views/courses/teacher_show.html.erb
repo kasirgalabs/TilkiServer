@@ -68,7 +68,7 @@
         <h3 class="card-header"><center>Create Exams!</center></h3>
         <div class="card-block">
           <p class="card-text">You can easily create exams by using the button below</p>
-          <%= button_to 'Create Exam', course_path(), method: :get, class: 'btn btn-primary'%>
+          <%= button_to 'Create Exam', new_course_exam_path(:course_id => @course.id), method: :get, class: 'btn btn-primary'%>
         </div>
       </div>
 
