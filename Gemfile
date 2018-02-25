@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 
 group :production do
-  gem 'pg'
+  gem 'pg', '~> 0.20'
 end
 
 group :development, :test do
