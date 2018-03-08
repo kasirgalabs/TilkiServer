@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestAnswerTest < ActiveSupport::TestCase
+class UploadedFileTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

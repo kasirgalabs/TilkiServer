@@ -65,15 +65,20 @@ class TilkiController < ApplicationController
       exam = params[:exam]
       zipFile = params[:fileName]
       zipname = zipFile.original_filename
-
-
-      Rails.logger.debug("My number: #{number.inspect}")
-      Rails.logger.debug("My exam: #{exam.inspect}")
-      Rails.logger.debug("zipname: #{zipname.inspect}")
-
-      uploader = AvatarUploader.new
-      uploader.store!(zipFile)
       
+      exam_id = Exam.where(:name => exam).take
+      student_id = Student.where(:number => number).take
+      file_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + zipname
+      
+      @file = UploadedFile.new(:exam_id => exam_id, :student_id => student_id, :file_url => file_url)
+      
+
+      if @file.save
+        uploader = AvatarUploader.new
+        uploader.store!(zipFile)
+      else
+        
+      end
       require 'digest/md5'
       @digest = Digest::MD5.hexdigest(zipname)
   end

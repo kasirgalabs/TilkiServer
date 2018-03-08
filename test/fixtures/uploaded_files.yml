@@ -2,12 +2,10 @@
 
 one:
   exam_id: 1
-  max_grade: 1
-  description: MyText
-  correct_answer: 1
+  student_id: 1
+  file_url: MyString
 
 two:
   exam_id: 1
-  max_grade: 1
-  description: MyText
-  correct_answer: 1
+  student_id: 1
+  file_url: MyString

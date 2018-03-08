@@ -23,8 +23,8 @@ CarrierWave.configure do |config|
     :provider               => 'AWS',                             # required
     :aws_access_key_id      => 'AKIAIOYQLIP2TQDFW3PQ',            # required
     :aws_secret_access_key  => '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',     # required
-    :region                 => 'eu-west-1',                        # optional, defaults to 'us-east-1'
-    :endpoint               => 'http://s3.amazonaws.com'
+    :host                   => "s3-eu-central-1.amazonaws.com",
+    :region                 => "eu-central-1"
   }
   config.fog_directory  = 'tilki'               # required
   #config.fog_host       = 'https://assets.example.com'           # optional, defaults to nil

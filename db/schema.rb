@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180225143656) do
+ActiveRecord::Schema.define(version: 20180308181949) do
 
   create_table "classic_answers", force: :cascade do |t|
     t.integer "classic_id"
@@ -115,6 +115,14 @@ ActiveRecord::Schema.define(version: 20180225143656) do
     t.integer "max_grade"
     t.text "description"
     t.integer "correct_answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "uploaded_files", force: :cascade do |t|
+    t.integer "exam_id"
+    t.integer "student_id"
+    t.string "file_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
