@@ -62,6 +62,8 @@ gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'momentjs-rails'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'jquery-datatables-rails', '~> 3.4.0'
+gem 'fog'
+gem 'fog-aws', group: :production
 gem 'carrierwave', '~> 1.0'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
