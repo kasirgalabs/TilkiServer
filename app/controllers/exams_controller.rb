@@ -2,7 +2,7 @@ class ExamsController < ApplicationController
   before_action :find_exam, only: [:show, :edit, :update, :destroy]
 
   def show
-    
+    @file = UploadedFile.where(:exam_id => @exam.id).all
   end
   
   def edit

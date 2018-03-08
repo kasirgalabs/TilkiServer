@@ -66,6 +66,12 @@ class TilkiController < ApplicationController
       zipFile = params[:fileName]
       zipname = zipFile.original_filename
       
+      if zipname.start_with('code')
+        file_type = "Exam File"
+      else
+        file_type = "Security File"
+      end
+      
       exam_id = Exam.where(:name => exam).take
       student_id = Student.where(:number => number).take
       file_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + zipname

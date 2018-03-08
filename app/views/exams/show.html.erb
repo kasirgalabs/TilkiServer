@@ -1,0 +1,46 @@
+<% provide(:title, @exam.name) %>
+
+<%= stylesheet_link_tag "sidebar.css" %>
+<%= stylesheet_link_tag "sb-admin-2.css" %>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<%= render 'teachers/sidebar' %>
+
+<div class="main back-im">
+<center><h2 class="page-header">Uploaded File List</h2></center>
+<br>
+<div class="row">
+  <div class="col-md-offset-3 col-md-6">
+    <table id="example" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>File Type</th>
+          <th>Download File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @file.each do |f| %>
+        <tr>
+          <td><%= Student.where(:id => f.student_id).take.name %> <%= Student.where(:id => f.student_id).take.surname %></td>
+          <td><%= f.filetype %></td>
+          <td><%= link_to "Download", f.file_url , class: 'btn btn-primary', :target => "_blank" %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+
+<script>
+$(document).ready( function() {
+  $('#example').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
