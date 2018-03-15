@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308191715) do
+ActiveRecord::Schema.define(version: 20180315180000) do
 
   create_table "classic_answers", force: :cascade do |t|
     t.integer "classic_id"
@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 20180308191715) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "teacher_id"
+  end
+
+  create_table "exam_papers", force: :cascade do |t|
+    t.integer "exam_id"
+    t.string "file_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "exam_results", force: :cascade do |t|

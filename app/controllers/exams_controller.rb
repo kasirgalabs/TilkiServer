@@ -2,7 +2,33 @@ class ExamsController < ApplicationController
   before_action :find_exam, only: [:show, :edit, :update, :destroy]
 
   def show
+    if teacher_signed_in?
+      @file = UploadedFile.where(:exam_id => @exam.id).all
+      @questions = ExamPaper.where(:exam_id => @exam_id).all
+      render 'teacher_show'
+    elsif student_signed_in?
+      render 'student_show'
+    else
+      redirect_to root_path
+    end
+  end
+  
+  def upload
+    paper = params[:paper]
+    exam_id = params[:exam_id]
+    @exam = Exam.find(exam_id)
+    paperName = paper.original_filename
+    paper_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + paperName
+    @paper = ExamPaper.new(:exam_id => exam_id , :file_url => paper_url)
     @file = UploadedFile.where(:exam_id => @exam.id).all
+      
+      if @paper.save
+        uploader = AvatarUploader.new
+        uploader.store!(paper)
+        redirect_back(fallback_location: root_path)
+      else
+        redirect_back(fallback_location: root_path)
+      end
   end
   
   def edit
