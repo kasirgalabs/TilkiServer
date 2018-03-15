@@ -4,7 +4,7 @@ class ExamsController < ApplicationController
   def show
     if teacher_signed_in?
       @file = UploadedFile.where(:exam_id => @exam.id).all
-      @questions = ExamPaper.where(:exam_id => @exam_id).all
+      @questions = ExamPaper.where(:exam_id => @exam.id).all
       render 'teacher_show'
     elsif student_signed_in?
       render 'student_show'
@@ -15,20 +15,43 @@ class ExamsController < ApplicationController
   
   def upload
     paper = params[:paper]
-    exam_id = params[:exam_id]
-    @exam = Exam.find(exam_id)
-    paperName = paper.original_filename
-    paper_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + paperName
-    @paper = ExamPaper.new(:exam_id => exam_id , :file_url => paper_url)
-    @file = UploadedFile.where(:exam_id => @exam.id).all
-      
-      if @paper.save
-        uploader = AvatarUploader.new
-        uploader.store!(paper)
+    if paper.nil?
+        redirect_back(fallback_location: root_path)
+    else
+      exam_id = params[:exam_id]
+      @exam = Exam.find(exam_id)
+      paperName = paper.original_filename
+    
+      if ExamPaper.exists?(:name => paperName)
         redirect_back(fallback_location: root_path)
       else
-        redirect_back(fallback_location: root_path)
+        paper_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + paperName
+        @paper = ExamPaper.new(:name => paperName, :exam_id => exam_id , :file_url => paper_url)
+        @file = UploadedFile.where(:exam_id => @exam.id).all
+      
+        if @paper.save
+          uploader = AvatarUploader.new
+          uploader.store!(paper)
+          redirect_back(fallback_location: root_path)
+        else
+          redirect_back(fallback_location: root_path)
+        end
       end
+    end
+  end
+  def remove_paper
+    name = params[:name]
+    paper_id = params[:paper_id]
+    uploader = AvatarUploader.new
+    uploader.retrieve_from_store!(name)
+    uploader.remove!
+    
+    paperRecord = ExamPaper.find(paper_id)
+    if paperRecord.destroy
+      redirect_back(fallback_location: root_path)
+    else
+      redirect_to root_path
+    end
   end
   
   def edit

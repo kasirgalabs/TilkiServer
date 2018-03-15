@@ -1,0 +1,39 @@
+<% provide(:title, 'Resources') %>
+
+<center><h2 class="page-header">Uploaded Exam Resources</h2></center>
+<div class="row">
+  <div class="col-md-9">
+    <table id="example2" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Exam Paper</th>
+          <th>Download File</th>
+          <th>Delete File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @questions.each do |f| %>
+        <tr>
+          <td><%= f.name %></td>
+          <td><%= link_to "Download", f.file_url , class: 'btn btn-primary', :target => "_blank" %></td>
+          <td><%= button_to 'Delete', exams_remove_paper_path(:name => f.name, :paper_id => f.id) , class: 'btn btn-primary' %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<div class="col-md-3">
+  <div class="card" style="background-color:white;">
+    <h3 class="card-header"><center>Upload Exam Resource</center></h3>
+      <div class="card-block">
+      <%= form_tag({action: :upload, :exam_id => params[:id]}, multipart: true) do %>
+      <span class="btn btn-large btn-warning btn-file">
+        Choose File
+        <%= file_field_tag 'paper' %>
+      </span>
+      <%= submit_tag "Submit", class: 'btn btn-primary'%>
+      <% end %>
+      </div>
+  </div>
+</div>

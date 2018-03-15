@@ -9,11 +9,13 @@
 <%= render 'teachers/sidebar' %>
 
 <div class="main back-im">
-<center><h2 class="page-header">Uploaded File List</h2></center>
-<br>
+
 <div class="row">
-  <div class="col-md-offset-3 col-md-6">
-    <table id="example" class="display nowrap" cellspacing="0" width="100%">
+  <div class="col-md-6">
+    <div class="mycontent-left">
+      <center><h2 class="page-header" style="margin-right:25px;">Uploaded File List</h2></center>
+      <div class="col-md-12">
+        <table id="example" class="display nowrap" cellspacing="0" width="100%">
       <thead>
         <tr>
           <th>Student Name</th>
@@ -30,22 +32,46 @@
         </tr>
         <% end %>
       </tbody>
+    </table>  
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="mycontent-right">
+      <center><h2 class="page-header">Uploaded Resources</h2></center>
+      <div class="col-md-12">
+    <table id="example2" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Exam Resource</th>
+          <th>Download File</th>
+          <th>Delete File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @questions.each do |f| %>
+        <tr>
+          <td><%= f.name %></td>
+          <td><%= link_to "Download", f.file_url , class: 'btn btn-primary', :target => "_blank" %></td>
+          <td><%= button_to 'Delete', exams_remove_paper_path(:name => f.name, :paper_id => f.id) , class: 'btn btn-primary' %></td>
+        </tr>
+        <% end %>
+      </tbody>
     </table>
   </div>
-</div>
-
-
-
-<div class="row">
-  <div class="col-md-offset-3 col-md-6">
-    <%= form_tag({action: :upload, :exam_id => params[:id]}, multipart: true) do %>
-      <label>Upload Exam Questions Paper</label>
-      <%= file_field_tag 'paper' %>
+      <div class="col-md-12">
+      <p>You can upload exam resource. First choose your file then submit it.</p>  
+      <%= form_tag({action: :upload, :exam_id => params[:id]}, multipart: true) do %>
+      <span class="btn btn-large btn-warning btn-file">
+        Choose File
+        <%= file_field_tag 'paper' %>
+      </span>
       <%= submit_tag "Submit", class: 'btn btn-primary'%>
-    <% end %>
-  </div>  
-</div>
-
+      <% end %>
+      </div>
+  </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -57,3 +83,11 @@ $(document).ready( function() {
 } )
 </script>
 
+<script>
+$(document).ready( function() {
+  $('#example2').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
