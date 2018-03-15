@@ -1,0 +1,41 @@
+<% provide(:title, @exam.name) %>
+
+<%= stylesheet_link_tag "sidebar.css" %>
+<%= stylesheet_link_tag "sb-admin-2.css" %>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<%= render 'teachers/sidebar' %>
+
+<div class="main back-im">
+<div class="row">
+  <div class="col-md-12">
+    <center><h2 class="page-header">Uploaded Exam Resources</h2></center>
+    <table id="example2" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Exam Resource</th>
+          <th>Download File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @questions.each do |f| %>
+        <tr>
+          <td><%= f.name %></td>
+          <td><%= link_to "Download", f.file_url , class: 'btn btn-primary', :target => "_blank" %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<script>
+$(document).ready( function() {
+  $('#example2').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>

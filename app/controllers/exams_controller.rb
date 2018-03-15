@@ -7,7 +7,12 @@ class ExamsController < ApplicationController
       @questions = ExamPaper.where(:exam_id => @exam.id).all
       render 'teacher_show'
     elsif student_signed_in?
-      render 'student_show'
+      if (@exam.start_time - Time.now) > - 10.minutes
+        redirect_back(fallback_location: root_path)
+      else
+        @questions = ExamPaper.where(:exam_id => @exam.id).all
+        render 'student_show'
+      end
     else
       redirect_to root_path
     end
