@@ -17,6 +17,7 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
       render 'teacher_show'
     elsif student_signed_in?
       @courses = Course.all
+      @records = CourseStudent.where(:course_id => @course.id)
       @studentCount = @records.count
       @examCount = Exam.where(:course_id => @course.id).count
       @exams = Exam.where(:course_id => @course.id)

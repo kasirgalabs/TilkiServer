@@ -152,7 +152,7 @@
               <% end %>
               
               <% if ExamResult.where(:exam_id => c.id).take.nil? %>
-                <td>No such file to delete</td>
+                <td>No file to delete</td>
               <% else %>  
                 <td><%= button_to 'Delete', course_remove_result_path(:course_id => params[:id], :result_id =>  ExamResult.where(:exam_id => c.id).take), class: 'btn btn-primary' %></td>              
               <% end %>

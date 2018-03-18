@@ -86,10 +86,10 @@
                 <td><%= c.name %></td>
                 <td><%= c.start_time %></td>
                 <td>
-                  <% if (c.start_time - Time.now) > - 10.minutes %>
-                    <%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => true%>
-                  <% else %>
+                  <% if DateTime.now.in_time_zone > (c.start_time - 10.minutes) %>
                     <%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => false%>
+                  <% else %>
+                    <%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => true%>
                   <% end %>
                 </td>
             </tr>
@@ -114,17 +114,19 @@
           <table id="example2" class="display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>Student</th>
                 <th>Exam Name</th>
-                <th>Grade</th>
+                <th>Exam Results</th>
               </tr>
             </thead>
             <tbody>
-            <% @examResults.each do |c| %>
+            <% @exams.each do |c| %>
               <tr>
-                <td><%= Teacher.where(:id => @examResults.teacher_id).name %></td>
-                <td><%= Exam.where(:id => @examResults.exam_id).name %></td>
-                <td>c.totalgrade</td>
+              <td><%= c.name %></td>
+              <% if ExamResult.where(:exam_id => c.id).take.nil? %>
+                <td>No Result</td>
+              <% else %>
+                <td><%= link_to "Download", ExamResult.where(:exam_id => c.id).take.result_url , class: 'btn btn-primary', :target => "_blank" %></td>
+              <% end %>
               </tr>
             <% end %>
           </tbody>
