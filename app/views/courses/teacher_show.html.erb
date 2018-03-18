@@ -8,10 +8,11 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
 
+<body class="back-im">
 
 <%= render 'teachers/sidebar' %>
 
-<div class="main back-im">
+<div class="main">
 
 <div class="row">
   <div class="col-lg-4">
@@ -90,7 +91,7 @@
     <div class="mycontent-right">
         <% if @examCount < 1 %>
           <div class="alert alert-danger" style="margin-top:20px;">
-            You don't have any created exams. Please create exams for activating exam results section!
+            You don't have any created exams. Please create exams for activating Exams section!
           </div>
         <% else %>
           <table id="example" class="display nowrap" cellspacing="0" width="100%">
@@ -116,10 +117,40 @@
           </tbody>
           </table>
         <% end %>
+
+        <br>
+
+        <% if @examCount < 1 %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You don't have any created exams. Please create exams for activating Exam Results section!
+          </div>
+        <% else %>
+          <table id="example2" class="display nowrap" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Exam Name</th>
+                <th>Upload Exam Result</th>
+                <th>Delete Uploaded Results</th>
+              </tr>
+            </thead>
+          <tbody>
+            <% @exams.each do |c| %>
+            <tr>
+              <td><%= c.name %></td>
+              <td><%= button_to 'Upload Exam Result', course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
+              <td><%= button_to 'Delete Exam Result', edit_course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
+            </tr>
+            <% end %>
+          </tbody>
+          </table>
+        <% end %>
+        
     </div>
   </div>  
 </div>
 </div>
+
+</body>
 
 <script>
 $(document).ready( function () {
@@ -131,6 +162,15 @@ $(document).ready( function () {
 $(document).ready( function() {
   $('#example').dataTable( {
     "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example2').dataTable( {
+    "iDisplayLength": 3,
     "bLengthChange": false
   } );
 } )

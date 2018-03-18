@@ -4,3 +4,12 @@
 div.btn-group form {
   display: inline;
 }
+
+.back-im {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-image: url('back.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

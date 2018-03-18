@@ -5,9 +5,12 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
+<body class="back-im">
+
+
 <%= render 'students/sidebar' %>
 
-<div class="main back-im">
+<div class="main">
 
 <div class="row">
   <div class="col-lg-4">
@@ -62,8 +65,14 @@
 <div class="row">
   <div class="col-md-6">
     <div class="mycontent-left">
-      <h2 class="page-header"><center>Upcoming Exams</center></h2>      
-      <table id="example" class="display nowrap" cellspacing="0" width="100%">
+      <h2 class="page-header"><center>Upcoming Exams</center></h2>
+      <% if student_signed_in? %>
+        <% if CourseStudent.where(:student_id => current_student.id, :course_id => @course.id).take.nil? %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You cant display exams section!
+          </div>
+        <% else %>
+          <table id="example" class="display nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Exam Name</th>
@@ -87,14 +96,22 @@
           <% end %>
         </tbody>
     </table>
+        <% end %>
+      <% end %>
     </div>
   </div>
   
   <div class="col-md-6">
     <div class="mycontent-right">
-      <h2 class="page-header"><center style="margin-right:25px;">Exam Results</center></h2>      
-        <% if @examResults.count !=0 %>
-          <table id="example" class="display nowrap" cellspacing="0" width="100%">
+      <h2 class="page-header"><center style="margin-right:25px;">Exam Results</center></h2>
+      
+      <% if student_signed_in? %>
+        <% if CourseStudent.where(:student_id => current_student.id, :course_id => @course.id).take.nil? %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You cant display exams section!
+          </div>
+        <% else %>
+          <table id="example2" class="display nowrap" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>Student</th>
@@ -110,21 +127,29 @@
                 <td>c.totalgrade</td>
               </tr>
             <% end %>
-            </tbody>
-          </table>
-        <% else %>
-          <div class="alert alert-danger" style="margin-top:20px;">
-            You don't have any announced exams!
-          </div>
-        <% end %>
+          </tbody>
+        </table>
+      <% end %>      
+    <% end %>
     </div>
   </div>  
 </div>
 </div>
 
+</body>
+
 <script>
 $(document).ready( function() {
   $('#example').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example2').dataTable( {
     "iDisplayLength": 5,
     "bLengthChange": false
   } );

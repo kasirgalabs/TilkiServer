@@ -10,24 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180315200329) do
-
-  create_table "classic_answers", force: :cascade do |t|
-    t.integer "classic_id"
-    t.integer "student_id"
-    t.text "given_answer"
-    t.integer "recieved_grade"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "classic_questions", force: :cascade do |t|
-    t.integer "exam_id"
-    t.integer "max_grade"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20180318180429) do
 
   create_table "course_students", force: :cascade do |t|
     t.integer "course_id"
@@ -54,11 +37,10 @@ ActiveRecord::Schema.define(version: 20180315200329) do
 
   create_table "exam_results", force: :cascade do |t|
     t.integer "exam_id"
-    t.integer "student_id"
-    t.integer "course_id"
-    t.integer "totalgrade"
+    t.string "result_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "course_id"
   end
 
   create_table "exams", force: :cascade do |t|
@@ -107,24 +89,6 @@ ActiveRecord::Schema.define(version: 20180315200329) do
     t.string "name"
     t.index ["email"], name: "index_teachers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_teachers_on_reset_password_token", unique: true
-  end
-
-  create_table "test_answers", force: :cascade do |t|
-    t.integer "test_id"
-    t.integer "student_id"
-    t.integer "given_answer"
-    t.integer "recieved_grade"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "test_questions", force: :cascade do |t|
-    t.integer "exam_id"
-    t.integer "max_grade"
-    t.text "description"
-    t.integer "correct_answer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "uploaded_files", force: :cascade do |t|
