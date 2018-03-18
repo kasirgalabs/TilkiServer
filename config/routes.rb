@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   devise_for :teachers, path: 'teachers'
   resources :courses do
     resources :exams
+    post 'upload_result'
+    post 'remove_result'
   end
   
   post 'exams/upload'

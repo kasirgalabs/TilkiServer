@@ -1,7 +1,7 @@
 <% provide(:title, @course.name) %>
 
 <%= stylesheet_link_tag "sidebar.css" %>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
@@ -87,9 +87,9 @@
                 <td><%= c.start_time %></td>
                 <td>
                   <% if (c.start_time - Time.now) > - 10.minutes %>
-                    <%= button_to 'Show Exam', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => true%>
+                    <%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => true%>
                   <% else %>
-                    <%= button_to 'Show Exam', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => false%>
+                    <%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => false%>
                   <% end %>
                 </td>
             </tr>

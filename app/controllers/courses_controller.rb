@@ -17,23 +17,59 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
       render 'teacher_show'
     elsif student_signed_in?
       @courses = Course.all
-      @records = CourseStudent.where(:course_id => @course.id)
       @studentCount = @records.count
       @examCount = Exam.where(:course_id => @course.id).count
       @exams = Exam.where(:course_id => @course.id)
       @examResults = ExamResult.where(:course_id => @course_id)
 
-      if @records.nil?
-        @courseStudents = nil  
-      else
-        #@courseStudents = Student.where(:id => @records.student_id).take
-      end
-      Rails.logger.debug("My object: #{@courseStudents.inspect}")
       render 'student_show'
     else
       redirect_to root_path
     end
   end
+  
+  
+  def upload_result
+    result = params[:result]
+    exam_id = params[:exam_id]
+    course_id = params[:course_id]
+    
+    begin
+    resultName = result.original_filename
+    resultName.gsub! ' ', '_'
+  
+    result_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + resultName
+    @result = ExamResult.new(:name => resultName, :exam_id => exam_id , :course_id => course_id, :result_url => result_url)
+    
+    if @result.save
+      uploader = AvatarUploader.new
+      uploader.store!(result)
+      redirect_back(fallback_location: root_path)
+    else
+      redirect_back(fallback_location: root_path)
+    end
+    
+    rescue => ex
+      redirect_back(fallback_location: root_path)
+    end
+    
+  end
+  
+  def remove_result
+      result_id = params[:result_id]
+      result = ExamResult.find(result_id)
+      uploader = AvatarUploader.new
+      uploader.retrieve_from_store!(result.name)
+      uploader.remove!
+      
+      if result.destroy
+        redirect_back(fallback_location: root_path)
+      else
+        redirect_to root_path
+      end
+  end
+  
+  
   
   def new
     if teacher_signed_in?

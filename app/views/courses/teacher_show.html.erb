@@ -3,7 +3,7 @@
 <%= stylesheet_link_tag "sidebar.css" %>
 <%= stylesheet_link_tag "sb-admin-2.css" %>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
@@ -107,11 +107,11 @@
           <tbody>
             <% @exams.each do |c| %>
             <tr>
-              <td><%= c.name %></td>
-              <td><%= c.start_time %></td>
-              <td><%= button_to 'Show Exam', course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
-              <td><%= button_to 'Edit Exam', edit_course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
-              <td><%= button_to 'Delete Exam', course_exam_path(@course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure?"}%></td>
+              <td><center><%= c.name %></center></td>
+              <td><center><%= c.start_time %></center></td>
+              <td><center><%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary'%></center></td>
+              <td><center><%= button_to 'Edit', edit_course_exam_path(@course), method: :get, class: 'btn btn-primary'%></center></td>
+              <td><center><%= button_to 'Delete', course_exam_path(@course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure?"}%></center></td>
             </tr>
             <% end %>
           </tbody>
@@ -125,20 +125,37 @@
             You don't have any created exams. Please create exams for activating Exam Results section!
           </div>
         <% else %>
-          <table id="example2" class="display nowrap" cellspacing="0" width="100%">
+          <table id="example2" class="stripe hover order-column row-border" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>Exam Name</th>
-                <th>Upload Exam Result</th>
+                <th>Result File</th>
                 <th>Delete Uploaded Results</th>
               </tr>
             </thead>
           <tbody>
             <% @exams.each do |c| %>
             <tr>
-              <td><%= c.name %></td>
-              <td><%= button_to 'Upload Exam Result', course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
-              <td><%= button_to 'Delete Exam Result', edit_course_exam_path(@course), method: :get, class: 'btn btn-primary'%></td>
+              <td><center><%= c.name %></center></td>
+              <% if ExamResult.where(:exam_id => c.id).take.nil? %>
+                <td>
+                <%= form_tag({action: :upload_result, :course_id => params[:id], :exam_id => c.id}, multipart: true) do %>
+                <span class="btn btn-large btn-warning btn-file">
+                  Choose File
+                  <%= file_field_tag 'result'%>
+                </span>
+                <%= submit_tag "Submit", class: 'btn btn-primary'%>
+                <% end %>
+                </td>
+              <% else %>
+                <td><%= link_to "Download", ExamResult.where(:exam_id => c.id).take.result_url , class: 'btn btn-primary', :target => "_blank" %></td>
+              <% end %>
+              
+              <% if ExamResult.where(:exam_id => c.id).take.nil? %>
+                <td>No such file to delete</td>
+              <% else %>  
+                <td><%= button_to 'Delete', course_remove_result_path(:course_id => params[:id], :result_id =>  ExamResult.where(:exam_id => c.id).take), class: 'btn btn-primary' %></td>              
+              <% end %>
             </tr>
             <% end %>
           </tbody>
