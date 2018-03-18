@@ -20,7 +20,7 @@ class TilkiController < ApplicationController
     begin
       @exam = Exam.where(:name => exam_name).take
       @course = Course.where(:id => @exam.course_id).take
-      @student = Student.where(:name => student_name, :surname => student_surname).take
+      @student = Student.where(:name => student_name, :surname => student_surname, :number => student_number).take
       record = CourseStudent.where(:course_id => @course.id, :student_id => @student.id).take
       respond_to do |format|
         format.json { render json: 'Record successfully found' }
@@ -66,25 +66,37 @@ class TilkiController < ApplicationController
       zipFile = params[:fileName]
       zipname = zipFile.original_filename
       
-      if zipname.start_with('code')
+      if zipname.start_with?('code')
         file_type = "Exam File"
       else
         file_type = "Security File"
       end
       
-      exam_id = Exam.where(:name => exam).take
-      student_id = Student.where(:number => number).take
+      exam_id = Exam.where(:name => exam).take.id
+      student_id = Student.where(:number => number).take.id
+      
+      zipname.gsub! ' ', '_'
+      
       file_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + zipname
       
-      @file = UploadedFile.new(:exam_id => exam_id, :student_id => student_id, :file_url => file_url)
-      
+      Rails.logger.debug("number: #{number.inspect}")
+      Rails.logger.debug("exam: #{exam.inspect}")
+      Rails.logger.debug("exam_id: #{exam_id.inspect}")
+      Rails.logger.debug("student_id: #{student_id.inspect}")
 
-      if @file.save
-        uploader = AvatarUploader.new
-        uploader.store!(zipFile)
+      
+      if exam_id.nil? || student_id.nil?
+        Rails.logger.debug("I am here: #{student_id.inspect}")
       else
-        
+        @file = UploadedFile.new(:exam_id => exam_id, :student_id => student_id, :filetype => file_type, :file_url => file_url)
+        if @file.save
+          uploader = AvatarUploader.new
+          uploader.store!(zipFile)
+        else
+          #do nothing
+        end
       end
+      
       require 'digest/md5'
       @digest = Digest::MD5.hexdigest(zipname)
   end

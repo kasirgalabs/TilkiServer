@@ -26,6 +26,8 @@ class ExamsController < ApplicationController
       exam_id = params[:exam_id]
       @exam = Exam.find(exam_id)
       paperName = paper.original_filename
+      
+      paperName.gsub! ' ', '_'
     
       if ExamPaper.exists?(:name => paperName)
         redirect_back(fallback_location: root_path)
