@@ -109,9 +109,9 @@
             <tr>
               <td><center><%= c.name %></center></td>
               <td><center><%= c.start_time %></center></td>
-              <td><center><%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary'%></center></td>
-              <td><center><%= button_to 'Edit', edit_course_exam_path(@course), method: :get, class: 'btn btn-primary'%></center></td>
-              <td><center><%= button_to 'Delete', course_exam_path(@course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure?"}%></center></td>
+              <td><center><%= button_to 'Show', course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary'%></center></td>
+              <td><center><%= button_to 'Edit', edit_course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary'%></center></td>
+              <td><center><%= button_to 'Delete', course_exam_path(:id => c.id, :course_id => @course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure?"}%></center></td>
             </tr>
             <% end %>
           </tbody>
