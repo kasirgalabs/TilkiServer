@@ -75,7 +75,8 @@ class ExamsController < ApplicationController
   def update
     if teacher_signed_in?
       if @exam.update(exam_params)
-        redirect_to @exam
+        course_id = @exam.course_id
+        redirect_to course_exam_path(:course_id => course_id, :id => params[:id])
       else
         render 'edit'
       end
