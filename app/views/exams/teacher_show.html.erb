@@ -14,6 +14,10 @@
 <div class="main">
 
 <div class="row">
+  <p>Instructor Key: <%= Exam.find(params[:id]).instructor_key %> </p>
+</div>
+
+<div class="row">
   <div class="col-md-6">
     <div class="mycontent-left">
       <center><h2 class="page-header" style="margin-right:25px;">Uploaded File List</h2></center>
@@ -24,6 +28,7 @@
           <th>Student Name</th>
           <th>File Type</th>
           <th>Download File</th>
+          <th>File hash</th>
         </tr>
       </thead>
       <tbody>
@@ -32,11 +37,34 @@
           <td><%= Student.where(:id => f.student_id).take.name %> <%= Student.where(:id => f.student_id).take.surname %></td>
           <td><%= f.filetype %></td>
           <td><%= link_to "Download", f.file_url , class: 'btn btn-primary', :target => "_blank" %></td>
+          <td><%= f.md5code %></td>
         </tr>
         <% end %>
       </tbody>
     </table>  
       </div>
+
+      <div class="col-md-12">
+        <table id="example3" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Running Process Score</th>
+          <th>Face Detection  Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @securityScore.each do |f| %>
+        <tr>
+          <td><%= Student.where(:id => f.student_id).take.name %> <%= Student.where(:id => f.student_id).take.surname %></td>
+          <td><%= f.rpskor %></td>
+          <td><%= f.fdskor %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>  
+      </div>
+
     </div>
   </div>
   <div class="col-md-6">
@@ -91,6 +119,15 @@ $(document).ready( function() {
 <script>
 $(document).ready( function() {
   $('#example2').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example3').dataTable( {
     "iDisplayLength": 5,
     "bLengthChange": false
   } );

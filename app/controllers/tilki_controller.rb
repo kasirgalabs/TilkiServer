@@ -34,15 +34,12 @@ class TilkiController < ApplicationController
   
   def verify_key
     exam_name = params[:exam]
-    password = params[:key]
+    key = params[:key].to_i
     
     begin
       @exam = Exam.where(:name => exam_name).take
-      teacher_id = Course.where(:id => @exam.course_id).take.teacher_id
-      dbTeacher = Teacher.find(teacher_id)
-      @teacher = dbTeacher.valid_password?(password) ? dbTeacher : nil
-      
-      if @teacher.nil?
+      if @exam.instructor_key != key
+        puts 'sa burdayim'
         respond_to do |format|
           format.json { render json: 'Instructor not found' }
         end
@@ -64,6 +61,10 @@ class TilkiController < ApplicationController
       number = params[:number]
       exam = params[:exam]
       zipFile = params[:fileName]
+      rpSkor = params[:rpSkor].to_i
+      fdSkor = params[:fdSkor].to_i
+      md5code = params[:hash]
+      
       zipname = zipFile.original_filename
       
       if zipname.start_with?('code')
@@ -79,16 +80,21 @@ class TilkiController < ApplicationController
       
       file_url = 'https://s3.eu-central-1.amazonaws.com/tilki/uploads/zipfiles/' + zipname
       
-      Rails.logger.debug("number: #{number.inspect}")
-      Rails.logger.debug("exam: #{exam.inspect}")
-      Rails.logger.debug("exam_id: #{exam_id.inspect}")
-      Rails.logger.debug("student_id: #{student_id.inspect}")
-
-      
       if exam_id.nil? || student_id.nil?
-        Rails.logger.debug("I am here: #{student_id.inspect}")
+        #Do nothing
       else
-        @file = UploadedFile.new(:exam_id => exam_id, :student_id => student_id, :filetype => file_type, :file_url => file_url)
+        if(SecurityScore.where(:exam_id => exam_id, :student_id => student_id, :rpskor => rpSkor, :fdskor => fdSkor).take.nil?)
+          @securityScore = SecurityScore.new(:exam_id => exam_id, :student_id => student_id, :rpskor => rpSkor, :fdskor => fdSkor)
+          @securityScore.save
+        end
+        
+        if(UploadedFile.where(:exam_id => exam_id, :student_id => student_id, :filetype => file_type).take.nil?)
+          @file = UploadedFile.new(:exam_id => exam_id, :student_id => student_id, :filetype => file_type, :file_url => file_url, :md5code => md5code)
+        else
+          @file = UploadedFile.where(:exam_id => exam_id, :student_id => student_id, :filetype => file_type).take
+          @file.update_column(:md5code, md5code)
+        end
+        
         if @file.save
           uploader = AvatarUploader.new
           uploader.store!(zipFile)
@@ -96,8 +102,6 @@ class TilkiController < ApplicationController
           #do nothing
         end
       end
-      
-      require 'digest/md5'
-      @digest = Digest::MD5.hexdigest(zipname)
+
   end
 end
