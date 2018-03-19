@@ -3,13 +3,13 @@ class ExamsController < ApplicationController
 
   def show
     if teacher_signed_in?
-      @file = UploadedFile.where(:exam_id => params[:id]).all
-      @securityScore = SecurityScore.where(:exam_id => params[:id]).all
-      @questions = ExamPaper.where(:exam_id => params[:id]).all
+      @file = UploadedFile.where(:exam_id => @exam.id).all
+      @securityScore = SecurityScore.where(:exam_id => @exam.id).all
+      @questions = ExamPaper.where(:exam_id => @exam.id).all
       render 'teacher_show'
     elsif student_signed_in?
-      if DateTime.now.in_time_zone > (Exam.find(params[:id]).start_time - 10.minutes).in_time_zone
-        @questions = ExamPaper.where(:exam_id => params[:id]).all
+      if DateTime.now.in_time_zone > (@exam.start_time - 10.minutes).in_time_zone
+        @questions = ExamPaper.where(:exam_id => @exam.id).all
         render 'student_show'
       else
         redirect_back(fallback_location: root_path)
