@@ -49,8 +49,9 @@
       <thead>
         <tr>
           <th>Student Name</th>
-          <th>Running Process Score</th>
-          <th>Face Detection  Score</th>
+          <th>Running Apps</th>
+          <th>Face Detect</th>
+          <th>Usb Control</th>
         </tr>
       </thead>
       <tbody>
@@ -59,6 +60,7 @@
           <td><%= Student.where(:id => f.student_id).take.name %> <%= Student.where(:id => f.student_id).take.surname %></td>
           <td><%= f.rpskor %></td>
           <td><%= f.fdskor %></td>
+          <td><%= f.usbstate %></td>
         </tr>
         <% end %>
       </tbody>

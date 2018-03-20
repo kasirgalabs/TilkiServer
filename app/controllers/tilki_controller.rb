@@ -64,6 +64,7 @@ class TilkiController < ApplicationController
       rpSkor = params[:rpSkor].to_i
       fdSkor = params[:fdSkor].to_i
       md5code = params[:hash]
+      usbstate = params[:usbState]
       
       zipname = zipFile.original_filename
       
@@ -84,7 +85,7 @@ class TilkiController < ApplicationController
         #Do nothing
       else
         if(SecurityScore.where(:exam_id => exam_id, :student_id => student_id, :rpskor => rpSkor, :fdskor => fdSkor).take.nil?)
-          @securityScore = SecurityScore.new(:exam_id => exam_id, :student_id => student_id, :rpskor => rpSkor, :fdskor => fdSkor)
+          @securityScore = SecurityScore.new(:exam_id => exam_id, :student_id => student_id, :rpskor => rpSkor, :fdskor => fdSkor, :usbstate => usbstate)
           @securityScore.save
         end
         
