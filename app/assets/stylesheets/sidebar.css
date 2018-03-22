@@ -1,4 +1,3 @@
-
 	/* remove outer padding */
 	.main .row{
 		padding: 0px;
@@ -10,7 +9,6 @@
 	nav.sidebar.navbar {
 		border-radius: 0px;
 		margin-top: -20px;
-		height: 100vh;
 	}
 
 	nav.sidebar, .main{
@@ -69,27 +67,12 @@
 			border-bottom: 1px #e5e5e5 solid;
 		}
 
-		/* Colors/style dropdown box*/
-		nav.sidebar .navbar-nav .open .dropdown-menu {
-			position: static;
-			float: none;
-			width: auto;
-			margin-top: 0;
-			background-color: transparent;
-			border: 0;
-			-webkit-box-shadow: none;
-			box-shadow: none;
-		}
 
 		/*allows nav box to use 100% width*/
 		nav.sidebar .navbar-collapse, nav.sidebar .container-fluid{
 			padding: 0 0px 0 0px;
 		}
 
-		/*colors dropdown box text */
-		.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
-			color: #777;
-		}
 
 		/*gives sidebar width/height*/
 		nav.sidebar{
