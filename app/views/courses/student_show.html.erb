@@ -87,9 +87,9 @@
                 <td><%= c.start_time %></td>
                 <td>
                   <% if DateTime.now.in_time_zone > (c.start_time - 10.minutes) %>
-                    <%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => false%>
+                  <center><%= button_to 'Show', course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary', :disabled => false%></center>
                   <% else %>
-                    <%= button_to 'Show', course_exam_path(@course), method: :get, class: 'btn btn-primary', :disabled => true%>
+                  <center><%= button_to 'Show', course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary', :disabled => true%></center>
                   <% end %>
                 </td>
             </tr>
