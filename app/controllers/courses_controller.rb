@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
 before_action :find_course, only: [:show, :edit, :update, :destroy]
+before_action :check_user, only: [:show, :edit, :update, :destroy]
 
   def show
     if teacher_signed_in?
@@ -159,4 +160,13 @@ before_action :find_course, only: [:show, :edit, :update, :destroy]
     def find_course
       @course = Course.find(params[:id])
     end
+    
+    def check_user
+      if teacher_signed_in?
+        if Course.where(:teacher_id => current_teacher.id, :id => params[:id]).take.nil?
+          redirect_to root_path
+        end        
+      end
+    end
+    
 end

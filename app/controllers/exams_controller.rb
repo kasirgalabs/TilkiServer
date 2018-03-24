@@ -1,5 +1,6 @@
 class ExamsController < ApplicationController
   before_action :find_exam, only: [:show, :edit, :update, :destroy]
+  before_action :check_user, only: [:show, :edit, :update, :destroy]
 
   def show
     if teacher_signed_in?
@@ -127,6 +128,21 @@ class ExamsController < ApplicationController
     
     def find_exam
       @exam = Exam.find(params[:id])
+    end
+    
+    def check_user
+      if teacher_signed_in?
+        c = Course.find(params[:course_id]).teacher_id
+        if c != current_teacher.id
+          redirect_to root_path
+        end
+      end
+      
+      if student_signed_in?
+        if CourseStudent.where(:student_id => current_student.id, :course_id => params[:course_id]).take.nil?
+          redirect_to root_path
+        end
+      end
     end
 
 end
