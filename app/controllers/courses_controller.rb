@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
 before_action :find_course, only: [:show, :edit, :update, :destroy]
-before_action :check_user, only: [:show, :edit, :update, :destroy]
+before_action :check_user, only: [:show]
 
   def show
     if teacher_signed_in?
@@ -179,5 +179,4 @@ before_action :check_user, only: [:show, :edit, :update, :destroy]
         end        
       end
     end
-    
 end

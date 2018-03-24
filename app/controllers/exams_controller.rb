@@ -1,6 +1,6 @@
 class ExamsController < ApplicationController
   before_action :find_exam, only: [:show, :edit, :update, :destroy]
-  before_action :check_user, only: [:show, :edit, :update, :destroy]
+  before_action :check_user, only: [:show]
 
   def show
     if teacher_signed_in?
@@ -9,8 +9,13 @@ class ExamsController < ApplicationController
       @questions = ExamPaper.where(:exam_id => @exam.id).all
       render 'teacher_show'
     elsif student_signed_in?
-        @questions = ExamPaper.where(:exam_id => @exam.id).all
-        render 'student_show'
+        exam_dt = Exam.find(@exam.id).start_time;
+        if (exam_dt - DateTime.now.in_time_zone) < 10.minutes
+          @questions = ExamPaper.where(:exam_id => @exam.id).all
+          render 'student_show'
+        else
+          redirect_to root_path
+        end
     else
       redirect_to root_path
     end
