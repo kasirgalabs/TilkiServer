@@ -98,6 +98,10 @@
     </table>
         <% end %>
       <% end %>
+
+    <% if CourseStudent.where(:course_id => @course, :student_id => current_student.id).take.present? %>
+      <%= button_to 'Unenroll', unenroll_path(:id => @course), method: :post, class: 'btn btn-primary', id:'unenrollClass', data: {confirm: "Are you sure"} %></center>
+    <% end %>
     </div>
   </div>
   

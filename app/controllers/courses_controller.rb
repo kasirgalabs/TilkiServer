@@ -127,6 +127,17 @@ before_action :check_user, only: [:show, :edit, :update, :destroy]
     end
   end
   
+  
+  def unenroll
+    if teacher_signed_in?
+      redirect_to root_path
+    else
+      st = CourseStudent.where(:student_id => current_student.id, :course_id => params[:id]).take
+      st.destroy
+      redirect_to root_path
+    end
+  end
+  
   def index
     if student_signed_in?
       @courses = Course.all

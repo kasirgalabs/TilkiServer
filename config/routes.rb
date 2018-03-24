@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   post 'exams/upload'
   post 'exams/remove_paper'
   post 'courses/:id/enroll', to: 'courses#enroll', as: 'enroll'
+  post 'courses/:id/unenroll', to: 'courses#unenroll', as: 'unenroll'
+  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'static_pages#home'
   
