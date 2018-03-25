@@ -8,7 +8,12 @@ class TeachersController < ApplicationController
   end
   
   def exam_dates
-    #In here exam dates of current teacher should be passed through view
-    #The data of calendar inside javascript will be taken from the passed exam date parameter
+    @cs = Course.where(:teacher_id => current_teacher.id)
+    Rails.logger.debug("cs: #{@cs.inspect}")
+    @exams = Exam.where(:course_id => @cs.map(&:id))
+    Rails.logger.debug("exams: #{@exams.inspect}")
+    @dates =  @exams.map(&:start_time).to_s
+    @names =  @exams.map(&:name)
+    Rails.logger.debug("dates: #{@dates.inspect}")
   end
 end

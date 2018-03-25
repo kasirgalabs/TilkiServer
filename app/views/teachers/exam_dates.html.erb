@@ -32,6 +32,17 @@
 </body>
 
 <script>
+  var names = <%= @names.inspect.html_safe %>;
+</script>
+
+<script>
+  var dates = <%= @dates.inspect.html_safe %>;
+
+</script>
+
+
+
+<script>
     !function() {
       
   var today = moment();
@@ -356,10 +367,11 @@
 !function() {
     
 
-  var data = [
-    { eventName: 'Bil 496 Vize', calendar: 'Work', color: 'orange' },
-    { eventName: 'Bil 496 Final', calendar: 'Work', color: 'blue' }
-  ];
+  data = [];
+  for (index = 0; index < names.length; ++index) {
+     data.push({eventName: names[index], calendar: 'Work', color: 'orange' });
+  }
+
 
 
   function addDate(ev) {
