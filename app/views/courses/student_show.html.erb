@@ -1,0 +1,163 @@
+<% provide(:title, @course.name) %>
+
+<%= stylesheet_link_tag "sidebar.css" %>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+<body class="back-im">
+
+
+<%= render 'students/sidebar' %>
+
+<div class="main">
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-child fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @studentCount %></div>
+            <div><center>Students enrolled to this course</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="panel panel-green">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-file fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @examCount %></div>
+            <div><center>Exams created</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-comments fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @course.name %></div>
+              <div><center><%= @course.description %></center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="mycontent-left">
+      <h2 class="page-header"><center>Upcoming Exams</center></h2>
+      <% if student_signed_in? %>
+        <% if CourseStudent.where(:student_id => current_student.id, :course_id => @course.id).take.nil? %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You cant display exams section!
+          </div>
+        <% else %>
+          <table id="example" class="display nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Exam Name</th>
+                <th>Date</th>
+                <th>Show Exam Paper</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @exams.each do |c| %>
+            <tr>
+                <td><%= c.name %></td>
+                <td><%= c.start_time %></td>
+                <td>
+                  <% if DateTime.now.in_time_zone > (c.start_time - 10.minutes) %>
+                  <center><%= button_to 'Show', course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary', :disabled => false%></center>
+                  <% else %>
+                  <center><%= button_to 'Show', course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary', :disabled => true%></center>
+                  <% end %>
+                </td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+        <% end %>
+      <% end %>
+
+    <% if CourseStudent.where(:course_id => @course, :student_id => current_student.id).take.present? %>
+      <%= button_to 'Unenroll', unenroll_path(:id => @course), method: :post, class: 'btn btn-primary', id:'unenrollClass', data: {confirm: "Are you sure"} %></center>
+    <% end %>
+    </div>
+  </div>
+  
+  <div class="col-md-6">
+    <div class="mycontent-right">
+      <h2 class="page-header"><center style="margin-right:25px;">Exam Results</center></h2>
+      
+      <% if student_signed_in? %>
+        <% if CourseStudent.where(:student_id => current_student.id, :course_id => @course.id).take.nil? %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You cant display exams section!
+          </div>
+        <% else %>
+          <table id="example2" class="display nowrap" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Exam Name</th>
+                <th>Exam Results</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% @exams.each do |c| %>
+              <tr>
+              <td><%= c.name %></td>
+              <% if ExamResult.where(:exam_id => c.id).take.nil? %>
+                <td>No Result</td>
+              <% else %>
+                <td><%= link_to "Download", ExamResult.where(:exam_id => c.id).take.result_url , class: 'btn btn-primary', :target => "_blank" %></td>
+              <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>      
+    <% end %>
+    </div>
+  </div>  
+</div>
+</div>
+
+</body>
+
+<script>
+$(document).ready( function() {
+  $('#example').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example2').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>

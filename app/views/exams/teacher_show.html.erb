@@ -1,0 +1,137 @@
+<% provide(:title, @exam.name) %>
+
+<%= stylesheet_link_tag "sidebar.css" %>
+<%= stylesheet_link_tag "sb-admin-2.css" %>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+<body class="back-im">
+
+<%= render 'teachers/sidebar' %>
+
+<div class="main">
+
+<div class="row">
+  <p>Instructor Key: <%= Exam.find(params[:id]).instructor_key %> </p>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="mycontent-left">
+      <center><h2 class="page-header" style="margin-right:25px;">Uploaded File List</h2></center>
+      <div class="col-md-12">
+        <table id="example" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>File Type</th>
+          <th>Download File</th>
+          <th>File hash</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @file.each do |f| %>
+        <tr>
+          <td><%= Student.where(:id => f.student_id).take.name %> <%= Student.where(:id => f.student_id).take.surname %></td>
+          <td><%= f.filetype %></td>
+          <td><%= link_to "Download", f.file_url , class: 'btn btn-primary', :target => "_blank" %></td>
+          <td><%= f.md5code %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>  
+      </div>
+
+      <div class="col-md-12">
+        <table id="example3" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Running Apps</th>
+          <th>Face Detect</th>
+          <th>Usb Control</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @securityScore.each do |f| %>
+        <tr>
+          <td><%= Student.where(:id => f.student_id).take.name %> <%= Student.where(:id => f.student_id).take.surname %></td>
+          <td><%= f.rpskor %></td>
+          <td><%= f.fdskor %></td>
+          <td><%= f.usbstate %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>  
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="mycontent-right">
+      <center><h2 class="page-header">Uploaded Resources</h2></center>
+      <div class="col-md-12">
+    <table id="example2" class="display nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Exam Resource</th>
+          <th>Download File</th>
+          <th>Delete File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @questions.each do |f| %>
+        <tr>
+          <td><%= f.name %></td>
+          <td><%= link_to "Download", f.file_url , class: 'btn btn-primary', :target => "_blank" %></td>
+          <td><%= button_to 'Delete', exams_remove_paper_path(:name => f.name, :paper_id => f.id) , class: 'btn btn-primary' %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+      <div class="col-md-12">
+      <p>You can upload exam resource. First choose your file then submit it.</p>  
+      <%= form_tag({action: :upload, :exam_id => params[:id]}, multipart: true) do %>
+      <span class="btn btn-large btn-warning btn-file">
+        Choose File
+        <%= file_field_tag 'paper' %>
+      </span>
+      <%= submit_tag "Submit", class: 'btn btn-primary'%>
+      <% end %>
+      </div>
+  </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+<script>
+$(document).ready( function() {
+  $('#example').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example2').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example3').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>

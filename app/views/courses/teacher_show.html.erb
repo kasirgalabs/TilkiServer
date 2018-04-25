@@ -1,0 +1,194 @@
+<% provide(:title, @course.name) %>
+
+<%= stylesheet_link_tag "sidebar.css" %>
+<%= stylesheet_link_tag "sb-admin-2.css" %>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+
+<body class="back-im">
+
+<%= render 'teachers/sidebar' %>
+
+<div class="main">
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-child fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @studentCount %></div>
+            <div><center>Students enrolled to this course</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="panel panel-green">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-file fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @examCount %></div>
+            <div><center>Exams created</center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-comments fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge"><%= @course.name %></div>
+              <div><center><%= @course.description %></center></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="mycontent-left">
+      <div class="card" style="margin-right:20px; margin-top:20px; background-color:white;">
+        <h3 class="card-header"><center>Create Exams!</center></h3>
+        <div class="card-block">
+          <p class="card-text">You can easily create exams by using the button below</p>
+          <%= button_to 'Create Exam', new_course_exam_path(:course_id => @course.id), method: :get, class: 'btn btn-primary'%>
+        </div>
+      </div>
+
+      <div class="card" style="margin-right:20px; margin-top:20px; background-color:white;">
+        <h3 class="card-header"><center>Edit or Delete Course</center></h3>
+        <div class="card-block">
+          <p class="card-text">You can edit this course's description or delete this course by using the buttons below</p>
+          <div class="btn-group">
+            <%= button_to 'Edit Course', edit_course_path(@course), method: :get, class: 'btn btn-primary'%>
+            <%= button_to 'Delete Course', course_path(@course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure"} %>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="mycontent-right">
+        <% if @examCount < 1 %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You don't have any created exams. Please create exams for activating Exams section!
+          </div>
+        <% else %>
+          <table id="example" class="display nowrap" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Exam Name</th>
+                <th>Date</th>
+                <th>Show Exam</th>
+                <th>Edit Exam</th>
+                <th>Delete Exam</th>
+              </tr>
+            </thead>
+          <tbody>
+            <% @exams.each do |c| %>
+            <tr>
+              <td><center><%= c.name %></center></td>
+              <td><center><%= c.start_time %></center></td>
+              <td><center><%= button_to 'Show', course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary'%></center></td>
+              <td><center><%= button_to 'Edit', edit_course_exam_path(:id => c.id, :course_id => @course), method: :get, class: 'btn btn-primary'%></center></td>
+              <td><center><%= button_to 'Delete', course_exam_path(:id => c.id, :course_id => @course), method: :delete, class: 'btn btn-primary', data: {confirm: "Are you sure?"}%></center></td>
+            </tr>
+            <% end %>
+          </tbody>
+          </table>
+        <% end %>
+
+        <br>
+
+        <% if @examCount < 1 %>
+          <div class="alert alert-danger" style="margin-top:20px;">
+            You don't have any created exams. Please create exams for activating Exam Results section!
+          </div>
+        <% else %>
+          <table id="example2" class="stripe hover order-column row-border" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Exam Name</th>
+                <th>Result File</th>
+                <th>Delete Uploaded Results</th>
+              </tr>
+            </thead>
+          <tbody>
+            <% @exams.each do |c| %>
+            <tr>
+              <td><center><%= c.name %></center></td>
+              <% if ExamResult.where(:exam_id => c.id).take.nil? %>
+                <td>
+                <%= form_tag({action: :upload_result, :course_id => params[:id], :exam_id => c.id}, multipart: true) do %>
+                <span class="btn btn-large btn-warning btn-file">
+                  Choose File
+                  <%= file_field_tag 'result'%>
+                </span>
+                <%= submit_tag "Submit", class: 'btn btn-primary'%>
+                <% end %>
+                </td>
+              <% else %>
+                <td><%= link_to "Download", ExamResult.where(:exam_id => c.id).take.result_url , class: 'btn btn-primary', :target => "_blank" %></td>
+              <% end %>
+              
+              <% if ExamResult.where(:exam_id => c.id).take.nil? %>
+                <td>No file to delete</td>
+              <% else %>  
+                <td><%= button_to 'Delete', course_remove_result_path(:course_id => params[:id], :result_id =>  ExamResult.where(:exam_id => c.id).take), class: 'btn btn-primary' %></td>              
+              <% end %>
+            </tr>
+            <% end %>
+          </tbody>
+          </table>
+        <% end %>
+        
+    </div>
+  </div>  
+</div>
+</div>
+
+</body>
+
+<script>
+$(document).ready( function () {
+    $('#table').DataTable();
+});  
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example').dataTable( {
+    "iDisplayLength": 5,
+    "bLengthChange": false
+  } );
+} )
+</script>
+
+<script>
+$(document).ready( function() {
+  $('#example2').dataTable( {
+    "iDisplayLength": 3,
+    "bLengthChange": false
+  } );
+} )
+</script>

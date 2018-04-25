@@ -1,0 +1,72 @@
+<%= stylesheet_link_tag "sidebar.css" %>
+
+<%= render 'sidebar' %>
+
+<body class="back-im">
+
+<div class="main">
+<br></br>
+<div class="container">
+      <!-- Heading Row -->
+      <div class="row">
+        <div class="col-md-8">
+            <%= image_tag("examination.jpg", :alt => "logo", :class => "img-fluid rounded") %>
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-md-4" style="color: rgba(0, 0, 0, .68); font-family: Ubuntu;">
+          <center><h1>e-Xam Your Online Examination System</h1></center>
+          <p>Hi <%= current_student.name%>! This is your index panel, where you can enroll courses, access your existing courses and see your upcoming exam dates!</p>
+        </div>
+        <!-- /.col-md-4 -->
+      </div>
+      <!-- /.row -->
+
+      <br></br>
+
+      <!-- Content Row -->
+      <div class="row" style="color: rgba(0, 0, 0, .68); font-family: Ubuntu;">
+        <div class="col-md-4">
+          <div class="card" style="height:200px; background-color:white;">
+            <div class="card-body">
+              <center><h2 class="card-title">Enroll A New Course!</h2></center>
+              <p class="card-text" style="margin-left:5px; margin-right:5px;">You can enroll courses with the button below! So that you can start tracking upcoming exams!</p>
+            </div>
+            <div class="card-footer">
+              <%= button_to 'Enroll Courses', courses_path, method: :get, class: 'btn btn-primary btn-md' %>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4">
+          <div class="card" style="height:200px; background-color:white;">
+            <div class="card-body">
+              <center><h2 class="card-title">List Your Courses!</h2></center>
+              <p class="card-text" style="margin-left:5px; margin-right:5px;">You can list your existing courses with the button below! You can select and visit any of the course page for more information.</p>
+            </div>
+            <div class="card-footer">
+              <%= button_to 'My Courses', students_my_courses_path, method: :get, class: 'btn btn-primary btn-md' %>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4">
+          <div class="card" style="height:200px; background-color:white;">
+            <div class="card-body">
+              <center><h2 class="card-title">Learn Your Exam Dates</h2></center>
+              <p class="card-text" style="margin-left:5px; margin-right:5px;">You can see your upcoming exams from the calendar view with the button below! So you can prepare for your exam before the date</p>
+            </div>
+            <div class="card-footer">
+              <%= button_to 'My Exam Dates', students_exam_dates_path, method: :get, class: 'btn btn-primary btn-md' %>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+
+</div>
+
+</body>
